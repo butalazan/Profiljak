@@ -85,7 +85,7 @@ Odpre se okno, ki nas vodi po korakih:
 
 <img src="slike/profiljak_start.png" alt="start" width="500"/>
 
-Program generira mrežo in požene simulacijo, ki lahko traja nekaj ur.
+Program generira mrežo in požene simulacijo, ki lahko traja nekaj ur (~80min za 1 sekundni interval).
 
 <img src="slike/su2.png" alt="su2" width="500"/>
 
