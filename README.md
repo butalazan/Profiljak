@@ -1,8 +1,8 @@
 
-Airfoil-SU2 paket za analizo 2D profilov v netrivialnih konfiguracijah.
-![Simulacija toka](eppler376_flow.gif)
+# *"Profiljak"* - paket za analizo 2D profilov v netrivialnih konfiguracijah.
+<img src="slike/solution.gif" alt="podmapa" width="500"/>
 
-# Navodila za namestitev SU2 (Windows)
+# Navodila za namestitev
 
 
 ## Potrebščine:
@@ -13,7 +13,7 @@ Airfoil-SU2 paket za analizo 2D profilov v netrivialnih konfiguracijah.
 
 ## Nameščanje WSL
 
-1. Zaženemo PowerShell kot skrbnik (Win + X + A  ->  PowerShell (Admin)),
+1. Zaženemo PowerShell kot skrbnik (*Win + X + A*  -->  *PowerShell (Admin)*),
 2. Vnesemo ukaz:
 
    `wsl --install`
@@ -32,64 +32,80 @@ in:
 
    `pip3 install pyvista`
 
-## Nalaganje SU2
+## Nalaganje paketa Profiljak z SU2
 
-Prenesemo in namestimo SU2, kot velevajo navodila na njih spletni strani:
-   https://su2code.github.io/download.html
+Prenesemo repozitorij:
+   https://github.com/butalazan/Profiljak/
 
 ali preprosto zaženemo:
 
-   `git clone https://github.com/su2code/SU2.git
-   cd SU2`
+   `git clone https://github.com/butalazan/Profiljak.git
+   cd Profiljak`
 
-## Prevajanje SU2
 
-Zaženemo Makefile, ki prevede SU2 kodo:
+## (Opcijsko) Dodajanje sistemske poti (PATH)
 
-   `mkdir build`\
-   `cd build`\
-   `cmake ..`\
-   `make -j$(nproc)`
+Zaženemo (spremenimo HOME/Profiljak/ v pot do bin datoteke):
 
-## Dodajanje sistemske poti (PATH)
-
-Zaženemo:
-
-   `echo 'export PATH=$PATH:$HOME/SU2/bin' >> ~/.bashrc
+   `echo 'export PATH=$PATH:$HOME/Profiljak/bin' >> ~/.bashrc
    source ~/.bashrc`
 
 To omogoči uporabo SU2 ukazov iz katere koli mape.
 
-
-## Dokumentacija: 
-https://su2code.github.io/docs_v7/home/
+<br><br>
 
 
 
 
 
-# Navodila za uporabo Airfoil paketa
+# Navodila za uporabo Profiljak paketa
 
-V CAD programu narišemo poljuben profil, ter koordinate točk izvozimo v tekstovno datoteko .dat.
+V CAD programu narišemo poljuben profil, ter koordinate točk izvozimo v tekstovno datoteko *.dat ali *.txt.
+
+<img src="/slike/dat.png" alt="podmapa" width="400"/>
+<img src="slike/foil1.png" alt="podmapa" width="350"/>
+<br><br>
+OPOMBA: koordinate profila so brezdimenzijske in zajemajo vrednosti od 0 do 1 vzdolž x-osi. Predkrilca, in dodatki lahko segajo največ 15% izven intervala. Velikosti in hitrosti v metričnih enotah določimo naknadno.
+
+OPOMBA: če je profil iz več delov, ki se ne prekrivajo (npr. predkrilca), vsakega od njih izvozimo v svojo tekstovno datoteko.
 
 
-Zaženemo batch file airfoil2D.bat
+Datoteke profila/-ov (npr. naca2412.dat in slats.dat) nato shranimo v podmapo (npr. naca_wslats).
+
+<img src="slike/podmapa.png" alt="podmapa" width="500"/><br>
+
+Zaženemo batch file RUN_PROFILJAK.bat (v Linux OS: RUN_PROFILJAK.sh)
+
+<img src="slike/main_mapa.png" alt="mapa" width="500"/><br>
+
 Odpre se okno, ki nas vodi po korakih:
-   - vnesemo imena datotek s koordinatami profilov (največ 5)
-   - vnesemo vpadni kot v stopinjah,
-   - vnesemo ime za bodoče izvožene datoteke (po potrebi)
-   - vnesemo Reynoldsovo dolžino in hitrost za izračun Re (po potrebi, default je 85000)
+   1) vnesemo ime mape, kjer se nahajajo datoteke s koordinatami profilov,
+   1) vnesemo vpadni kot v stopinjah,
+   1) (po potrebi) vnesemo dolžino profila [m] in hitrost [m/s] za izračun Re.
 
-![SU2 Interface](su2_interface.png)
+<img src="slike/profiljak_start.png" alt="start" width="500"/>
 
 Program generira mrežo in požene simulacijo, ki lahko traja nekaj ur.
-Output so mape:
-   - profil1
-      - vtus
-      - dats
-      - slike
-      - rezultati
 
-SU2 je prirejen za osnovno reševanje tranzientnega Navier-Stokes sistema (URANS) s turbolenčnim modelom Salbart-Allarmas.
+<img src="slike/su2.png" alt="su2" width="500"/>
 
-![SU2 Vmesnik](interface.png)
+Po koncu najdemo podmape
+   - naca_wslats
+      - vtus,
+      - dats,
+      - slike,
+      - rezultati.
+
+
+<img src="slike/mreza.png" alt="mreza" width="500"/>
+<!--<figcaption><strong>Slika 7:</strong> Mreža.</figcaption> -->
+
+<img src="slike/jxgs3.png" alt="jxgs2" width="500"/>
+<figcaption><strong>Slika 8:</strong> Tlačno polje s tokovnicami.</figcaption>
+
+<br><br><br>
+
+*Drobni tisk:
+Program Profiljak je prirejen za osnovno reševanje tranzientnega Navier-Stokes sistema (URANS) s turbolenčnim modelom Spalart-Allmaras.
+Gostota, viskoznost in ostale konstante so nastavljene za zrak na 0m nmv.
+Program je v sestavljen iz opensource komponent gmsh za generiranje mrež in SU2 solverja N-S sistema.*
