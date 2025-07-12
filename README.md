@@ -8,10 +8,10 @@
 ## Potrebščine:
    - WSL (Windows Subsystem for Linux) ali Linux/Mac OS - v slednjem primeru spustimo prvi korak,
    - python 3.8 ali novejši s knjižnjicami numpy, os, glob, pyvista,
-   - gmsh - program za generiranje mrež,
-   - SU2 - delovni konj.
+   - gmsh,
+   - SU2.
 
-## Nameščanje WSL
+## Nameščanje WSL (opcijsko, vendar priporočljivo)
 
 1. Zaženemo PowerShell kot skrbnik (*Win + X + A*  -->  *PowerShell (Admin)*),
 2. Vnesemo ukaz:
