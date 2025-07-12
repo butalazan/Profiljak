@@ -20,9 +20,9 @@
 
 3. Če je potrebno, znova zaženemo PC. Po ponovnem zagonu zaženemo Ubuntu (WSL) in nastavimo uporabniško ime ter geslo zanj.
 
-## Nameščanje paketov (od tukaj dalje delamo v terminalu Ubuntu (WSL))
+## Nameščanje paketov
 
-Zaženemo ukaza:
+Odpremo Ubuntu (WSL) terminal in zaženemo ukaza:
 
    `sudo apt update && sudo apt install -y
       build-essential cmake python3 python3-pip
