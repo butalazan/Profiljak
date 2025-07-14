@@ -148,7 +148,7 @@ def plot_polje(vtus_dir, fig_dir, airf_name, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*25*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*20*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
@@ -210,7 +210,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*25*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*20*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
@@ -229,7 +229,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*25*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*20*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
