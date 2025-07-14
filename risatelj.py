@@ -311,7 +311,7 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
 
     # Subplot 3: CL/CD Ratio
     df['CL/CD'] = df['CL'] / df['CD'].replace(0, float('nan'))
-    axes[1, 0].plot(df['Time_Iter']*dt, df['CL/CD']*0.5, label='CL/CD')
+    axes[1, 0].plot(df['Time_Iter']*dt, df['CL/CD'], label='CL/CD')
     #axes[1, 0].set_title('$C_L/C_D$')
     axes[1, 0].set_xlabel("$t$ [s]")
     axes[1, 0].set_ylabel('$C_L/C_D$')
