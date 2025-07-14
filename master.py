@@ -157,13 +157,17 @@ program za numerično analizo profilov v 2D
 
     mesh_file = os.path.join(mesh_dir, f"{airf_name}-{nfoils}_{aoa_str}aoa.su2")
     #print("mesh_dir", mesh_dir)
-    print("Generiram mrežo:", mesh_file)
-    generate_mesh(
-        airfoil_paths=airfoil_files,
-        mesh_path=mesh_file,
-        aoa_deg=aoa)
     
-    plot_mreza(mesh_file, rezultati_dir, airf_name, aoa_str, nfoils)
+    if os.path.isfile(mesh_file):
+        print("Mreža že obstaja.\n")
+    else:
+        print("Generiram mrežo:", mesh_file)
+        generate_mesh(
+            airfoil_paths=airfoil_files,
+            mesh_path=mesh_file,
+            aoa_deg=aoa)
+        
+        plot_mreza(mesh_file, rezultati_dir, airf_name, aoa_str, nfoils)
 
     
     """    # ______________________________________________________________________
