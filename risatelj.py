@@ -301,6 +301,9 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
     axes[0, 0].set_xlabel("$t$ [s]")
     axes[0, 0].set_ylabel('$C_L$')
     axes[0, 0].grid(True)
+    cl_avg = np.mean(df['CL'])
+    cl_rms = np.sqrt(np.mean(df['CL']**2))
+    axes[0, 0].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
 
     # Subplot 2: CD
     axes[0, 1].plot(df['Time_Iter']*dt, df['CD'], label='CD')
@@ -308,6 +311,9 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
     axes[0, 1].set_xlabel("$t$ [s]")
     axes[0, 1].set_ylabel('$C_D$')
     axes[0, 1].grid(True)
+    cl_avg = np.mean(df['CL'])
+    cl_rms = np.sqrt(np.mean(df['CD']**2))
+    axes[0, 1].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
 
     # Subplot 3: CL/CD Ratio
     df['CL/CD'] = df['CL'] / df['CD'].replace(0, float('nan'))
@@ -323,6 +329,9 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
     axes[1, 1].set_xlabel("$t$ [s]")
     axes[1, 1].set_ylabel('$C_M$')
     axes[1, 1].grid(True)
+    cl_avg = np.mean(df['CMz'])
+    cl_rms = np.sqrt(np.mean(df['CL']**2))
+    axes[1, 1].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
 
     # Layout adjustment
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
