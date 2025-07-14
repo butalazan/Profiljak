@@ -290,7 +290,7 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
 
 
 
-    dt = 1e-4
+    dt = 0.9e-4
     fig, axes = plt.subplots(2, 2, figsize=(12, 9))
     fig.suptitle('Aero-Koeficienti', fontsize=16)
 
