@@ -297,31 +297,31 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
     # Subplot 1: CL
     axes[0, 0].plot(df['Time_Iter']*dt, df['CL'], label='CL')
     #axes[0, 0].plot(df['Real_Time'], df['CL'], label='CL')         # PREVERI !!
-    axes[0, 0].set_title('$C_L$')
+    #axes[0, 0].set_title('$C_L$')
     axes[0, 0].set_xlabel("$t$ [s]")
-    axes[0, 0].set_ylabel('$C$')
+    axes[0, 0].set_ylabel('$C_L$')
     axes[0, 0].grid(True)
 
     # Subplot 2: CD
     axes[0, 1].plot(df['Time_Iter']*dt, df['CD'], label='CD')
-    axes[0, 1].set_title('$C_D$')
+    #axes[0, 1].set_title('$C_D$')
     axes[0, 1].set_xlabel("$t$ [s]")
-    axes[0, 1].set_ylabel('$C$')
+    axes[0, 1].set_ylabel('$C_D$')
     axes[0, 1].grid(True)
 
     # Subplot 3: CL/CD Ratio
     df['CL/CD'] = df['CL'] / df['CD'].replace(0, float('nan'))
-    axes[1, 0].plot(df['Time_Iter']*dt, df['CL/CD'], label='CL/CD')
-    axes[1, 0].set_title('$C_L/C_D$')
+    axes[1, 0].plot(df['Time_Iter']*dt, df['CL/CD']*0.5, label='CL/CD')
+    #axes[1, 0].set_title('$C_L/C_D$')
     axes[1, 0].set_xlabel("$t$ [s]")
-    axes[1, 0].set_ylabel('$C/C$')
+    axes[1, 0].set_ylabel('$C_L/C_D$')
     axes[1, 0].grid(True)
 
     # Subplot 4: CMz
     axes[1, 1].plot(df['Time_Iter']*dt, df['CMz'], label='CMz')
-    axes[1, 1].set_title('$C_M$')
+    #axes[1, 1].set_title('$C_M$')
     axes[1, 1].set_xlabel("$t$ [s]")
-    axes[1, 1].set_ylabel('$C$')
+    axes[1, 1].set_ylabel('$C_M$')
     axes[1, 1].grid(True)
 
     # Layout adjustment
@@ -339,31 +339,31 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
 
     # Subplot 1: CL (averaged)
     axes[0, 0].plot(df['Time_Iter'] * dt, df['tavg[CL]'], label='CL')
-    axes[0, 0].set_title('$\\overline{C_L}$')
+    #axes[0, 0].set_title('$\\overline{C_L}$')
     axes[0, 0].set_xlabel("$t$ [s]")
-    axes[0, 0].set_ylabel('$C$')
+    axes[0, 0].set_ylabel('$\\overline{C_L}$')
     axes[0, 0].grid(True)
 
     # Subplot 2: CD (averaged)
     axes[0, 1].plot(df['Time_Iter'] * dt, df['tavg[CD]'], label='CD')
-    axes[0, 1].set_title('$\\overline{C_D}$')
+    #axes[0, 1].set_title('$\\overline{C_D}$')
     axes[0, 1].set_xlabel("$t$ [s]")
-    axes[0, 1].set_ylabel('$C$')
+    axes[0, 1].set_ylabel('$\\overline{C_D}$')
     axes[0, 1].grid(True)
 
     # Subplot 3: CL/CD Ratio (averaged)
     df['tavg[CL/CD]'] = df['tavg[CL]'] / df['tavg[CD]'].replace(0, float('nan'))
     axes[1, 0].plot(df['Time_Iter'] * dt, df['tavg[CL/CD]'], label='CL/CD')
-    axes[1, 0].set_title('$\\overline{C_L} / \\overline{C_D}$')
+    #axes[1, 0].set_title('$\\overline{C_L} / \\overline{C_D}$')
     axes[1, 0].set_xlabel("$t$ [s]")
-    axes[1, 0].set_ylabel('$C/C$')
+    axes[1, 0].set_ylabel('$\\overline{C_L} / \\overline{C_D}$')
     axes[1, 0].grid(True)
 
     # Subplot 4: CMz (averaged)
     axes[1, 1].plot(df['Time_Iter'] * dt, df['tavg[CMz]'], label='CMz')
-    axes[1, 1].set_title('$\\overline{C_M}$')
+    #axes[1, 1].set_title('$\\overline{C_M}$')
     axes[1, 1].set_xlabel("$t$ [s]")
-    axes[1, 1].set_ylabel('$C$')
+    axes[1, 1].set_ylabel('$\\overline{C_M}$')
     axes[1, 1].grid(True)
 
     # Save the figure
