@@ -1,6 +1,6 @@
 
 # *"Profiljak"* - paket za analizo 2D profilov v netrivialnih konfiguracijah.
-<img src="slike/solution.gif" alt="podmapa" width="500"/>
+<img src="slike/naca210aoa.gif" alt="podmapa" width="500"/>
 
 # Navodila za namestitev
 
