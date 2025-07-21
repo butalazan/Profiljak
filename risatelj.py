@@ -9,7 +9,7 @@ import pandas as pd
 
 
 camera_position = [(1.0, 0.0, 5.0),  # position
-                   (0.7, 0.0, 0.0),  # focal point
+                   (0.8, 0.0, 0.0),  # focal point
                    (0.0, 1.0, 0.0)]  # view up
 
 
@@ -95,7 +95,7 @@ def read_su2_mesh(filename):
     return np.array(points), np.array(triangles)
 
 
-def plot_polje(vtus_dir, fig_dir, airf_name, aoa_str, nfoils):
+def plot_polje(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
 
     def configure_camera(camera_position=camera_position, zoom=0.9):
         plotter.view_xy()
@@ -145,11 +145,10 @@ def plot_polje(vtus_dir, fig_dir, airf_name, aoa_str, nfoils):
 
         # Plot and render
         plotter.clear()
-        plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
+        plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7)
+        #plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
-        #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*20*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
-        #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
+        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*5*1e-3:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         plotter.add_axes()
         plotter.view_xy()
         configure_camera()
@@ -171,7 +170,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
     print(f"Najdenih {len(files)} vtu datotek.")
     print(f"\nShranjujem v mapo: {fig_dir}")
 
-    n_seeds = 4000
+    n_seeds = 3500
     points = generate_weighted_points(n_seeds)
     seed = pv.PolyData(points)
 
@@ -210,13 +209,13 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*20*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*5*1e-3:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
         x_zoom, y_zoom = rotate_point(0.0, 0.0, aoa_deg)
         cam_pos1 = [(1.0, 0.0, 5.0),  # position
-                        (x_zoom+0.1, y_zoom, 0.0),  # focal point
+                        (x_zoom+0.15, y_zoom, 0.0),  # focal point
                         (0.0, 1.0, 0.0)]  # view up
         configure_camera(cam_pos1, 0.25)
         plotter.render()
@@ -229,7 +228,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name} {aoa_str}aoa;    Čas: {i*20*9*1e-4:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*5*1e-3:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
@@ -283,55 +282,54 @@ def plot_mreza(mesh_file, out_dir, airf_name, aoa_deg, nfoils):
 
 
 def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
-    #history_file = folder + '/history_02720.csv'  # adjust if needed
     history_file = rezultati_dir + f"/history_{airf_name}-{nfoils}_{aoa_str}aoa.csv"
     df = pd.read_csv(history_file)
     df.columns = df.columns.str.strip().str.replace('"', '')
+    print(df.keys)
 
 
-
-    dt = 0.9e-4
+    dt = 5*0.9e-4
     fig, axes = plt.subplots(2, 2, figsize=(12, 9))
     fig.suptitle('Aero-Koeficienti', fontsize=16)
 
     # Subplot 1: CL
-    axes[0, 0].plot(df['Time_Iter']*dt, df['CL'], label='CL')
-    #axes[0, 0].plot(df['Real_Time'], df['CL'], label='CL')         # PREVERI !!
+    axes[0, 0].plot(df['Cur_Time'], df['CL'], label='CL')
     #axes[0, 0].set_title('$C_L$')
     axes[0, 0].set_xlabel("$t$ [s]")
     axes[0, 0].set_ylabel('$C_L$')
     axes[0, 0].grid(True)
     cl_avg = np.mean(df['CL'])
     cl_rms = np.sqrt(np.mean(df['CL']**2))
-    axes[0, 0].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
+    try: axes[0, 0].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
+    except: pass
 
     # Subplot 2: CD
-    axes[0, 1].plot(df['Time_Iter']*dt, df['CD'], label='CD')
+    axes[0, 1].plot(df['Cur_Time'], df['CD'], label='CD')
     #axes[0, 1].set_title('$C_D$')
     axes[0, 1].set_xlabel("$t$ [s]")
     axes[0, 1].set_ylabel('$C_D$')
     axes[0, 1].grid(True)
     cl_avg = np.mean(df['CL'])
     cl_rms = np.sqrt(np.mean(df['CD']**2))
-    axes[0, 1].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
+    #axes[0, 1].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
 
     # Subplot 3: CL/CD Ratio
     df['CL/CD'] = df['CL'] / df['CD'].replace(0, float('nan'))
-    axes[1, 0].plot(df['Time_Iter']*dt, df['CL/CD'], label='CL/CD')
+    axes[1, 0].plot(df['Cur_Time'], df['CL/CD'], label='CL/CD')
     #axes[1, 0].set_title('$C_L/C_D$')
     axes[1, 0].set_xlabel("$t$ [s]")
     axes[1, 0].set_ylabel('$C_L/C_D$')
     axes[1, 0].grid(True)
 
     # Subplot 4: CMz
-    axes[1, 1].plot(df['Time_Iter']*dt, df['CMz'], label='CMz')
+    axes[1, 1].plot(df['Cur_Time'], df['CMz'], label='CMz')
     #axes[1, 1].set_title('$C_M$')
     axes[1, 1].set_xlabel("$t$ [s]")
     axes[1, 1].set_ylabel('$C_M$')
     axes[1, 1].grid(True)
     cl_avg = np.mean(df['CMz'])
     cl_rms = np.sqrt(np.mean(df['CL']**2))
-    axes[1, 1].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
+    #axes[1, 1].set_ylim(cl_avg - cl_rms, cl_avg + cl_rms)
 
     # Layout adjustment
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
@@ -347,14 +345,14 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
     fig.suptitle('Časovno povprečeni koeficienti', fontsize=16)
 
     # Subplot 1: CL (averaged)
-    axes[0, 0].plot(df['Time_Iter'] * dt, df['tavg[CL]'], label='CL')
+    axes[0, 0].plot(df['Cur_Time'], df['tavg[CL]'], label='CL')
     #axes[0, 0].set_title('$\\overline{C_L}$')
     axes[0, 0].set_xlabel("$t$ [s]")
     axes[0, 0].set_ylabel('$\\overline{C_L}$')
     axes[0, 0].grid(True)
 
     # Subplot 2: CD (averaged)
-    axes[0, 1].plot(df['Time_Iter'] * dt, df['tavg[CD]'], label='CD')
+    axes[0, 1].plot(df['Cur_Time'], df['tavg[CD]'], label='CD')
     #axes[0, 1].set_title('$\\overline{C_D}$')
     axes[0, 1].set_xlabel("$t$ [s]")
     axes[0, 1].set_ylabel('$\\overline{C_D}$')
@@ -362,14 +360,14 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
 
     # Subplot 3: CL/CD Ratio (averaged)
     df['tavg[CL/CD]'] = df['tavg[CL]'] / df['tavg[CD]'].replace(0, float('nan'))
-    axes[1, 0].plot(df['Time_Iter'] * dt, df['tavg[CL/CD]'], label='CL/CD')
+    axes[1, 0].plot(df['Cur_Time'], df['tavg[CL/CD]'], label='CL/CD')
     #axes[1, 0].set_title('$\\overline{C_L} / \\overline{C_D}$')
     axes[1, 0].set_xlabel("$t$ [s]")
     axes[1, 0].set_ylabel('$\\overline{C_L} / \\overline{C_D}$')
     axes[1, 0].grid(True)
 
     # Subplot 4: CMz (averaged)
-    axes[1, 1].plot(df['Time_Iter'] * dt, df['tavg[CMz]'], label='CMz')
+    axes[1, 1].plot(df['Cur_Time'], df['tavg[CMz]'], label='CMz')
     #axes[1, 1].set_title('$\\overline{C_M}$')
     axes[1, 1].set_xlabel("$t$ [s]")
     axes[1, 1].set_ylabel('$\\overline{C_M}$')
@@ -389,40 +387,45 @@ def plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils):
     fig2.suptitle("Konvergenca", fontsize=16)
 
     # Subplot 1: rho residual
-    axes[0, 0].semilogy(df['Time_Iter'], df['rms[Rho]'])
+    axes[0, 0].plot(df['Time_Iter'], df['Inner_Iter'])
     axes[0, 0].set_xlabel('iteracija')
-    axes[0, 0].set_ylabel('rms[Rho]')
-    #axes[0, 0].grid(True)
+    axes[0, 0].set_ylabel('Notranji stepi')
+    axes[0, 0].grid(True)
 
     # Subplot 2: rhoU residual
-    axes[0, 1].semilogy(df['Time_Iter'], df['rms[RhoU]'])
+    axes[0, 1].semilogy(df['Inner_Iter'], df['rms[P]'])
     axes[0, 1].set_xlabel('iteracija')
-    axes[0, 1].set_ylabel('rms[RhoU]')
+    axes[0, 1].set_ylabel('rms[P]')
+    #axes[0, 0].grid(True)
+
+    # Subplot 3: rhoU residual
+    #axes[1, 0].semilogy(df['Time_Iter'], df['rms[E]'])
+    axes[1, 0].semilogy(df['Time_Iter'], df['rms[nu]'])
+    axes[1, 0].set_xlabel('iteracija')
+    axes[1, 0].set_ylabel('rms[E]')
     #axes[0, 1].grid(True)
 
-    # Subplot 3: rhoV residual
-    axes[1, 0].semilogy(df['Time_Iter'], df['rms[RhoV]'])
-    axes[1, 0].set_xlabel('iteracija')
-    axes[1, 0].set_ylabel('rms[RhoV]')
+    # Subplot 4: rhoV residual
+    axes[1, 1].semilogy(df['Time_Iter'], df['rms[V]'], label="$rms v_x$")
+    axes[1, 1].semilogy(df['Time_Iter'], df['rms[U]'], label="$rms v_y$")
+    axes[1, 1].set_xlabel('iteracija')
+    axes[1, 1].set_ylabel('rms[U, V]')
     #axes[1, 0].grid(True)
 
-    # Subplot 4: rhoE residual
-    axes[1, 1].semilogy(df['Time_Iter'], df['rms[RhoE]'])
-    axes[1, 1].set_xlabel('iteracija')
-    axes[1, 1].set_ylabel('rms[RhoE]')
+    # Subplot 5: rhoE residual
+    axes[2, 0].semilogy(df['Time_Iter'], df['rms[nu]'])
+    axes[2, 0].set_xlabel('iteracija')
+    axes[2, 0].set_ylabel('rms[nu]')
     #axes[1, 1].grid(True)
 
-    # Subplot 5: Inner iterations
-    axes[2, 1].plot(df['Time_Iter'], df['Inner_Iter'])
-    axes[2, 1].set_xlabel('iteracija')
-    axes[2, 1].set_ylabel('Notranji stepi')
-    axes[2, 1].grid(True)
 
     # Subplot 6: Buffet
-    axes[2, 0].plot(df['Time_Iter'], df['Buffet'])
-    axes[2, 0].set_xlabel('iteracija')
-    axes[2, 0].set_ylabel('Buffet')
-    axes[2, 0].grid(True)
+    axes[2, 1].plot(df['Time_Iter'], df['Buffet'], label="lokal.")
+    axes[2, 1].plot(df['Time_Iter'], df['tavg[Buffet]'], label="tavg")
+    axes[2, 1].set_xlabel('iteracija')
+    axes[2, 1].set_ylabel('Buffet')
+    axes[2, 1].grid(True)
+    axes[2, 1].legend()
 
     fig2.tight_layout(rect=[0, 0.03, 1, 0.95])
     fig2.savefig(os.path.join(rezultati_dir, f"{airf_name}-{nfoils}_{aoa_str}aoa_konvergenca.png"))
@@ -509,5 +512,3 @@ def plot_airfoils(dat_paths, out_dir, airf_name, nfoils):
 # #Uporaba
 #airfoil_files = ["naca0012.dat", "naca4412.dat", "clarky.dat"]
 #plot_airfoils(airfoil_files, aoa_deg=5)
-
-
