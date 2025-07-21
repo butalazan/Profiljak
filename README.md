@@ -76,7 +76,7 @@ Datoteke profila/-ov (npr. naca2412.dat in slats.dat) nato shranimo v podmapo (n
 
 Zaženemo batch file RUN_PROFILJAK.bat (v Linux OS: RUN_PROFILJAK.sh)
 
-<img src="slike/main_mapa.png" alt="mapa" width="500"/><br>
+<img src="slike/main_mapa1.png" alt="mapa" width="500"/><br>
 
 Odpre se okno, ki nas vodi po korakih:
    1) vnesemo ime mape, kjer se nahajajo datoteke s koordinatami profilov,
