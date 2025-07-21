@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0"
-python master.py
+python bin/master.py
 pause
