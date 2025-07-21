@@ -46,6 +46,36 @@ def run_su2(base_path):
     except subprocess.CalledProcessError as e:
         print(f"Error pri zagonu SU2: {e}")
 
+"""def run_su2(base_path):
+    config_file = os.path.join(base_path, "configure.cfg")
+    run_file = os.path.join(base_path, "bin/SU2_CFD")
+    log_file = os.path.join(base_path, "log.txt")
+
+    try:
+        print(f"Zagon SU2 z {config_file} ...")
+
+        with open(log_file, "w") as log:
+            process = subprocess.Popen(
+                [run_file, config_file],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True
+            )
+            # Stream output line by line to both screen and file
+            for line in process.stdout:
+                #print(line, end="")      # print to terminal
+                log.write(line)          # write to file
+
+            process.wait()
+
+            if process.returncode != 0:
+                raise subprocess.CalledProcessError(process.returncode, [run_file, config_file])
+
+        print("\nSimulacija uspešno izvršena.")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error pri zagonu SU2: {e}")"""
+
 
 
 
@@ -206,13 +236,24 @@ program za numerično analizo profilov v 2D
     # _______________________________________________________________________
     # ZAGON SOLVERJA
 
-    run_su2(script_dir)
+    nfigs = os.path.join(fig_dir, f"{airf_name}-{nfoils}_{aoa_str}aoa_frame_*.png")
+    ponovi2 = "Da"
+    if len(nfigs) > 10:
+        ponovi1 = input(f"V mapi {fig_dir} je že {len(nfigs)} slik pri tej konfiguraciji. \nŽeliš vseeno ponoviti simulacijo? [Da/Ne]   ")
+    
+    if ponovi1.lower().startswith("n"):
+        ponovi2 = input(f"Kaj pa generiranje slik? [Da/Ne]  ")
+    else:
+        run_su2(script_dir)
 
     # _______________________________________________________________________
     # POST
 
-    plot_polje(vtus_dir, fig_dir, airf_name, aoa_str, nfoils)
-    plot_zoom(vtus_dir, fig_dir, airf_name, aoa, aoa_str, nfoils)
+    if ponovi2.lower().startswith("n"):
+        pass
+    else:
+        plot_polje(vtus_dir, fig_dir, airf_name, aoa, aoa_str, nfoils)
+        plot_zoom(vtus_dir, fig_dir, airf_name, aoa, aoa_str, nfoils)
 
     plot_koeffs(rezultati_dir, airf_name, aoa_str, nfoils)
 
