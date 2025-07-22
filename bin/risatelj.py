@@ -12,7 +12,8 @@ camera_position = [(1.0, 0.0, 5.0),  # position
                    (0.8, 0.0, 0.0),  # focal point
                    (0.0, 1.0, 0.0)]  # view up
 
-
+dt = 2E-3
+frames = 5
 
 def generate_weighted_points(n_points, center=(0.5, 0), core_size=(3.0, 1.0), domain=[-1, 2.2, -1, 1]):
     x_min, x_max, y_min, y_max = domain
@@ -148,7 +149,7 @@ def plot_polje(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7)
         #plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
-        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*5*1e-3:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*frames*dt:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         plotter.add_axes()
         plotter.view_xy()
         configure_camera()
@@ -209,7 +210,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*5*1e-3:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*frames*dt:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
@@ -228,7 +229,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
-        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*5*1e-3:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
+        plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*frames*dt:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
         #plotter.add_text(f"Ćas: {i*20*9e-5:.3f}s", font_size=10)
         plotter.add_axes()
         plotter.view_xy()
