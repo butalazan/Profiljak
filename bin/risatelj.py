@@ -128,7 +128,7 @@ def plot_polje(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         mesh.set_active_vectors('Velocity')
 
         pressure = mesh.point_data['Pressure'] 
-        mesh.point_data['p/p0 [%]'] = pressure  
+        mesh.point_data['delta p'] = pressure  
         p_mean = np.mean(pressure)
         p_std = np.std(pressure)
         clim = [p_mean - 1 * p_std, p_mean + 1 * p_std]
@@ -146,7 +146,7 @@ def plot_polje(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
 
         # Plot and render
         plotter.clear()
-        plotter.add_mesh(mesh, scalars='p/p0 [%]', clim=clim, cmap='viridis', opacity=0.7)
+        plotter.add_mesh(mesh, scalars='delta p', clim=clim, cmap='viridis', opacity=0.7)
         #plotter.add_mesh(mesh, scalars='Tlak [Pa]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*frames*dt:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
@@ -189,7 +189,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
         mesh.set_active_vectors('Velocity')
 
         pressure = mesh.point_data['Pressure'] 
-        mesh.point_data['p/p0 [%]'] = pressure  
+        mesh.point_data['delta p'] = pressure  
         p_mean = np.mean(pressure)
         p_std = np.std(pressure)
         clim = [p_mean - 1 * p_std, p_mean + 1 * p_std]
@@ -207,7 +207,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
 
         # Plot and render
         plotter.clear()
-        plotter.add_mesh(mesh, scalars='p/p0 [%]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
+        plotter.add_mesh(mesh, scalars='delta p', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
         plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*frames*dt:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
@@ -226,7 +226,7 @@ def plot_zoom(vtus_dir, fig_dir, airf_name, aoa_deg, aoa_str, nfoils):
 
         # Plot and render
         plotter.clear()
-        plotter.add_mesh(mesh, scalars='p/p0 [%]', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
+        plotter.add_mesh(mesh, scalars='delta p', clim=clim, cmap='viridis', opacity=0.7, show_scalar_bar=False)
         plotter.add_mesh(streamlines, line_width=0.1, color='black')
         #plotter.add_mesh(streamlines_tube, color='black', opacity=0.1)
         plotter.add_text(f"{airf_name}, {aoa_deg}aoa;    Čas: {i*frames*dt:.2f}s", font_size=10)        # Čas: {i*10*8e-5:.3f}s - čas. korak 8e-5, vtu shrani na 20 korakov!
